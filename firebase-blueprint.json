@@ -1,0 +1,172 @@
+{
+  "entities": {
+    "Student": {
+      "title": "Student",
+      "description": "Individual student academic profile and game state",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique student user ID matching Firebase Auth UID",
+          "maxLength": 128
+        },
+        "username": {
+          "type": "string",
+          "description": "Unique username chosen by the student",
+          "maxLength": 30,
+          "minLength": 3
+        },
+        "name": {
+          "type": "string",
+          "description": "Student's first name",
+          "maxLength": 50,
+          "minLength": 1
+        },
+        "lastName": {
+          "type": "string",
+          "description": "Student's last name",
+          "maxLength": 50,
+          "minLength": 1
+        },
+        "age": {
+          "type": "number",
+          "description": "Age of the student"
+        },
+        "grade": {
+          "type": "string",
+          "description": "Elementary school grade (3ro, 4to, 5to, 6to)",
+          "enum": ["3ro", "4to", "5to", "6to"]
+        },
+        "group": {
+          "type": "string",
+          "description": "Class group section (e.g. A, B, C)",
+          "maxLength": 10
+        },
+        "guardianEmail": {
+          "type": "string",
+          "description": "Optional parent or teacher recovery email",
+          "maxLength": 100
+        },
+        "coins": {
+          "type": "number",
+          "description": "Accumulated Eureka coins earned through learning"
+        },
+        "totalLearningScore": {
+          "type": "number",
+          "description": "Real learning mastery percentage"
+        },
+        "unlockedItems": {
+          "type": "array",
+          "description": "List of unlocked avatar items"
+        },
+        "achievements": {
+          "type": "array",
+          "description": "List of unlocked achievement badges"
+        },
+        "avatar": {
+          "type": "object",
+          "description": "Customized 3D avatar configuration"
+        },
+        "progress": {
+          "type": "object",
+          "description": "Highest level unlocked in each educational subject"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Account registration timestamp"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Last profile update timestamp"
+        }
+      },
+      "required": ["id", "username", "name", "lastName", "age", "grade", "coins", "avatar", "progress"]
+    },
+    "StudentHistory": {
+      "title": "StudentHistory",
+      "description": "Academic challenge assessment history record",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "History record ID",
+          "maxLength": 128
+        },
+        "studentId": {
+          "type": "string",
+          "description": "ID of the student who completed the mission",
+          "maxLength": 128
+        },
+        "subject": {
+          "type": "string",
+          "description": "Subject type",
+          "enum": ["matematicas", "algoritmos", "lectura"]
+        },
+        "level": {
+          "type": "number",
+          "description": "Mission level completed"
+        },
+        "completed": {
+          "type": "boolean",
+          "description": "Whether the challenge was solved successfully"
+        },
+        "score": {
+          "type": "number",
+          "description": "Calculated score 0-100"
+        },
+        "attempts": {
+          "type": "number",
+          "description": "Number of attempts taken"
+        },
+        "hintsUsed": {
+          "type": "number",
+          "description": "Number of conceptual hints requested"
+        },
+        "timeSpentSeconds": {
+          "type": "number",
+          "description": "Time elapsed solving the challenge"
+        },
+        "realLearningMastery": {
+          "type": "number",
+          "description": "Score measuring deep understanding vs guess"
+        },
+        "timestamp": {
+          "type": "string",
+          "description": "ISO timestamp of completion"
+        }
+      },
+      "required": ["id", "studentId", "subject", "level", "completed", "score", "realLearningMastery"]
+    },
+    "UsernameIndex": {
+      "title": "UsernameIndex",
+      "description": "Index mapping unique lowercase usernames to student IDs",
+      "type": "object",
+      "properties": {
+        "studentId": {
+          "type": "string",
+          "description": "Student UID",
+          "maxLength": 128
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Creation timestamp"
+        }
+      },
+      "required": ["studentId"]
+    }
+  },
+  "firestore": {
+    "/students/{studentId}": {
+      "schema": { "$ref": "#/entities/Student" },
+      "description": "Individual student account and game state"
+    },
+    "/students/{studentId}/history/{historyId}": {
+      "schema": { "$ref": "#/entities/StudentHistory" },
+      "description": "Assessment history logs for an individual student"
+    },
+    "/usernames/{username}": {
+      "schema": { "$ref": "#/entities/UsernameIndex" },
+      "description": "Public unique username directory to prevent collisions and support username login"
+    }
+  }
+}

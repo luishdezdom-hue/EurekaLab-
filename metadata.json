@@ -1,0 +1,8 @@
+{
+  "name": "Remix Remix Remix Remix Remix Remix Remix Remix EurekaLab - Gamificación y Aprendizaje Real",
+  "description": "Plataforma educativa interactiva con balanza de fracciones, programación por bloques, avatar 3D personalizable, audio de alta fidelidad y panel docente con analíticas de aprendizaje real.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
